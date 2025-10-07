@@ -19,8 +19,8 @@ ADMIN_USERNAME = "admin"
 ADMIN_PASSWORD = "pass123"
 app.secret_key = os.urandom(24)
 
-TELEGRAM_BOT_TOKEN = "8014983608:AAFDpA5Kw4SLsJbveEej0TLMJa6lm62oFBI"
-CHAT_ID = "974683585"
+TELEGRAM_BOT_TOKEN = "xxxxxxxI"
+CHAT_ID = "xxxxxxxxx"
 
 try:
     with open('phishing_model.pkl', 'rb') as f:
