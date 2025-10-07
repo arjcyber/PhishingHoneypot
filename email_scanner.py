@@ -8,12 +8,12 @@ import sqlite3
 import datetime  # ✅ For timestamping log entries
 
 # ✉️ Gmail Configuration
-EMAIL_ACCOUNT = "arjcyber@gmail.com"  # Replace with your Gmail
-EMAIL_PASSWORD = "yvkd zwyd akmo megm"  # Use Google App Password
+EMAIL_ACCOUNT = "xxxxxxxx"  # Replace with your Gmail
+EMAIL_PASSWORD = "yxxxxxxxxxx"  # Use Google App Password
 IMAP_SERVER = "imap.gmail.com"
 
 # 🔍 VirusTotal API Key
-VIRUSTOTAL_API_KEY = "b1957e49d65465ff287259c983ca0055a515c8f83e3ba8d77399d22f8350a8cb"
+VIRUSTOTAL_API_KEY = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
 # 🚨 Blacklisted Phishing Domains
 BLACKLISTED_DOMAINS = ["phishingsite.com", "malicious.com", "hacker-attacks.com"]
@@ -22,8 +22,8 @@ BLACKLISTED_DOMAINS = ["phishingsite.com", "malicious.com", "hacker-attacks.com"
 SHORTENED_SERVICES = ["bit.ly", "tinyurl.com", "t.co", "goo.gl", "ow.ly"]
 
 # 📢 Telegram Alert Configuration
-TELEGRAM_BOT_TOKEN = "8014983608:AAFDpA5Kw4SLsJbveEej0TLMJa6lm62oFBI"
-CHAT_ID = "974683585"
+TELEGRAM_BOT_TOKEN = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+CHAT_ID = "xxxxxxxxxx"
 
 
 def send_telegram_alert(message):
