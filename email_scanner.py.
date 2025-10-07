@@ -13,14 +13,14 @@ SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
 
 # IMAP Settings
 IMAP_SERVER = "imap.gmail.com"
-EMAIL_ACCOUNT = "arjcyber@gmailcom"  # Change to your email
+EMAIL_ACCOUNT = "xxxxxxxxxxxxxxxxx  # Change to your email
 
 # VirusTotal API Key (Get yours from virustotal.com)
-VIRUSTOTAL_API_KEY = "b1957e49d65465ff287259c983ca0055a515c8f83e3ba8d77399d22f8350a8cb"  # Replace with your actual API key
+VIRUSTOTAL_API_KEY = "xxxxxxxxxxxxxxxxxxxxxxxx"  # Replace with your actual API key
 
 # Use OAuth2 or App Password (set to True if using OAuth2, False for App Password)
 USE_OAUTH2 = True  # Change to False if using an App Password
-APP_PASSWORD = "yvkd zwyd akmo megm"  # Replace if using App Password
+APP_PASSWORD = "xxxxxxxxxxxxx"  # Replace if using App Password
 
 def authenticate_gmail():
     """Authenticate using OAuth2 and return credentials."""
