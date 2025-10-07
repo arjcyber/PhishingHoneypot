@@ -1,0 +1,15 @@
+[
+  {
+    "name": "Elena D.",
+    "role": "Fake HR Manager",
+    "email": "elena.d@fakecorp.ai",
+    "notes": "Frequently targeted in phishing simulations."
+  },
+  {
+    "name": "Tom R.",
+    "role": "Red Team Analyst",
+    "email": "tom.red@simnet.ai",
+    "notes": "Used for social engineering bait profiles."
+  }
+]
+

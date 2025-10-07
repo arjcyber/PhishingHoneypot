@@ -1,0 +1,23 @@
+<!-- ndaill/templates/ndaill/clearance_audit.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Clearance Audit</title>
+  <link rel="stylesheet" href="/static/ndaill/style.css">
+</head>
+<body>
+  <h1 class="audit-title">🕵️ Clearance Activity Logs</h1>
+  <table>
+    <tr><th>User</th><th>Role</th><th>Time</th><th>Location</th></tr>
+    {% for log in logs %}
+      <tr>
+        <td>{{ log.user }}</td>
+        <td>{{ log.role }}</td>
+        <td>{{ log.access_time }}</td>
+        <td>{{ log.location }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+</body>
+</html>

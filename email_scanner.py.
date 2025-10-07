@@ -1,0 +1,117 @@
+import imapclient
+import email
+import requests
+import json
+import os
+from bs4 import BeautifulSoup
+from google_auth_oauthlib.flow import InstalledAppFlow
+from google.auth.transport.requests import Request
+from google.oauth2.credentials import Credentials
+
+# OAuth2 Scope for Gmail Access
+SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
+
+# IMAP Settings
+IMAP_SERVER = "imap.gmail.com"
+EMAIL_ACCOUNT = "arjcyber@gmailcom"  # Change to your email
+
+# VirusTotal API Key (Get yours from virustotal.com)
+VIRUSTOTAL_API_KEY = "b1957e49d65465ff287259c983ca0055a515c8f83e3ba8d77399d22f8350a8cb"  # Replace with your actual API key
+
+# Use OAuth2 or App Password (set to True if using OAuth2, False for App Password)
+USE_OAUTH2 = True  # Change to False if using an App Password
+APP_PASSWORD = "yvkd zwyd akmo megm"  # Replace if using App Password
+
+def authenticate_gmail():
+    """Authenticate using OAuth2 and return credentials."""
+    creds = None
+    if os.path.exists('token.json'):
+        creds = Credentials.from_authorized_user_file('token.json', SCOPES)
+    
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+        else:
+            flow = InstalledAppFlow.from_client_secrets_file('client_secret.json', SCOPES)
+            creds = flow.run_local_server(port=0)
+
+        with open('token.json', 'w') as token:
+            token.write(creds.to_json())
+
+    return creds
+
+def extract_links(email_content):
+    """Extract all links from email body."""
+    soup = BeautifulSoup(email_content, "html.parser")
+    return [a["href"] for a in soup.find_all("a", href=True)]
+
+def check_url_virustotal(url):
+    """Check if the URL is flagged as phishing on VirusTotal."""
+    try:
+        headers = {"x-apikey": VIRUSTOTAL_API_KEY}
+        params = {"url": url}
+        response = requests.post("https://www.virustotal.com/api/v3/urls", headers=headers, data=params)
+        data = response.json()
+
+        # Extract URL analysis results
+        url_id = data.get("data", {}).get("id")
+        if not url_id:
+            return False, "No result"
+
+        response = requests.get(f"https://www.virustotal.com/api/v3/analyses/{url_id}", headers=headers)
+        analysis = response.json()
+
+        # Check if the URL is malicious
+        stats = analysis.get("data", {}).get("attributes", {}).get("stats", {})
+        if stats.get("malicious", 0) > 0:
+            return True, "⚠️ URL flagged as phishing!"
+        return False, "✅ Safe URL"
+
+    except Exception as e:
+        return False, f"Error checking URL: {e}"
+
+def check_email():
+    """Connect to Gmail and scan unread emails for phishing links."""
+    creds = authenticate_gmail() if USE_OAUTH2 else None
+
+    try:
+        with imapclient.IMAPClient(IMAP_SERVER) as client:
+            if USE_OAUTH2:
+                client.oauth2_login(EMAIL_ACCOUNT, creds.token)
+            else:
+                client.login(EMAIL_ACCOUNT, APP_PASSWORD)
+
+            client.select_folder("INBOX", readonly=True)
+            messages = client.search(["UNSEEN"])
+
+            if not messages:
+                print("✅ No new unread emails.")
+                return
+            
+            print(f"📩 Found {len(messages)} unread emails.")
+            for msg_id in messages:
+                raw_message = client.fetch(msg_id, ["RFC822"])[msg_id][b"RFC822"]
+                email_message = email.message_from_bytes(raw_message)
+
+                email_body = ""
+                for part in email_message.walk():
+                    if part.get_content_type() == "text/html":
+                        email_body = part.get_payload(decode=True).decode(errors="ignore")
+
+                urls = extract_links(email_body)
+                for url in urls:
+                    print(f"🔍 Checking URL: {url}")
+                    is_phishing, result = check_url_virustotal(url)
+                    if is_phishing:
+                        print(f"🚨 ALERT: {url} is a phishing site!")
+                    else:
+                        print(f"✅ {url} is safe. {result}")
+
+    except imapclient.exceptions.IMAPClientError as e:
+        print(f"❌ IMAP Error: {e}")
+    except Exception as e:
+        print(f"❌ Unexpected Error: {e}")
+
+if __name__ == "__main__":
+    check_email()
+

@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Adaptive Honeypot Logs</title>
+</head>
+<body style="background-color: #111; color: #0f0; font-family: monospace;">
+    <h1>AI-Based Adaptive Honeypot Logs</h1>
+    <pre>{{ log }}</pre>
+</body>
+</html>

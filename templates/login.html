@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Login - Phishing Detection Honeypot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+        }
+        body {
+            background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+        .login-container {
+            background-color: #121212;
+            padding: 55px 45px;
+            border-radius: 28px;
+            box-shadow: 0 0 30px rgba(0, 200, 255, 0.2);
+            width: 100%;
+  max-width: 500px;
+            text-align: center;
+        }
+        .login-container h2 {
+            margin-bottom: 40px;
+            font-size: 36px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #00ffb3, #00cfff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1.5px;
+            text-shadow: 0px 0px 8px rgba(0, 255, 255, 0.3);
+        }
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: 100%;
+            padding: 17px;
+            margin-bottom: 25px;
+            border: 1px solid #444;
+            border-radius: 14px;
+            background-color: #1e1e1e;
+            color: #fff;
+            font-size: 17px;
+            transition: border 0.3s ease;
+        }
+        .login-container input[type="text"]:focus,
+        .login-container input[type="password"]:focus {
+            border-color: #00cfff;
+   outline: none;
+        }
+        .login-container input::placeholder {
+            color: #aaa;
+        }
+        .login-container button {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(90deg, #00ffb3, #00cfff);
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s;
+        }
+        .login-container button:hover {
+            background: linear-gradient(90deg, #00cfff, #00ffb3);
+            transform: scale(1.02);
+        }
+        .footer-note {
+            margin-top: 28px;
+            font-size: 13px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>🔐 Welcome to Honeypot Portal</h2>
+        <form action="/login" method="POST">
+            <input type="text" name="username" placeholder="👤 Username" required>
+            <input type="password" name="password" placeholder="🔒 Password" required>
+            <button type="submit">Login Securely</button>
+        </form>
+        <div class="footer-note">Your activity is monitored for cybersecurity analysis.</div>
+    </div>
+</body>
+</html>
+

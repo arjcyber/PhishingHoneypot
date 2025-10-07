@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Phishing Honeypot Dashboard</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(145deg, #0f2027, #203a43, #2c5364);
+            color: #e0e0e0;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .container {
+            background-color: #1c1c1e;
+            border-radius: 16px;
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.15);
+            padding: 40px 30px;
+            margin-top: 50px;
+            margin-bottom: 60px;
+        }
+
+        h1, h2 {
+            color: #00ffe0;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            margin-top: 50px;
+            margin-bottom: 20px;
+            color: #00ffd5;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .btn {
+            font-weight: bold;
+            border-radius: 10px;
+            transition: transform 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: scale(1.03);
+        }
+
+        .table {
+            background-color: #2c2f33;
+            color: #f1f1f1;
+        }
+
+        .table th {
+            background-color: #1e272e;
+            color: #00ffe0;
+        }
+
+        .table-bordered th,
+        .table-bordered td {
+            border: 1px solid #555;
+        }
+
+        .text-danger {
+            color: #ff4c4c !important;
+        }
+
+        .text-success {
+            color: #33ff99 !important;
+        }
+
+        .top-bar {
+            background-color: #121212;
+            padding: 20px;
+            border-bottom: 1px solid #333;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,255,255,0.05);
+        }
+
+        .top-bar h1 {
+            margin: 0;
+            color: #00ffe0;
+            font-size: 28px;
+        }
+
+        .search-input {
+            margin: 10px 0 20px;
+            border-radius: 8px;
+            padding: 8px;
+            width: 100%;
+            border: 1px solid #555;
+            background-color: #2c2f33;
+            color: #e0e0e0;
+        }
+    </style>
+    <script>
+        function filterTable(inputId, tableId) {
+            let input = document.getElementById(inputId).value.toLowerCase();
+            let rows = document.getElementById(tableId).getElementsByTagName('tr');
+            for (let i = 1; i < rows.length; i++) {
+                let rowText = rows[i].textContent.toLowerCase();
+                rows[i].style.display = rowText.includes(input) ? '' : 'none';
+            }
+        }
+
+        function refreshPage() {
+            location.reload();
+        }
+    </script>
+</head>
+<body>
+
+    <div class="top-bar">
+        <h1>🛡️ Phishing Detection Honeypot Dashboard</h1>
+    </div>
+
+    <div class="container">
+
+        <!-- ✅ Download Buttons -->
+        <div class="text-center mb-4">
+            <a href="/export_login_logs" class="btn btn-info m-2">⬇️ Download Login Report</a>
+            <a href="/export_qr_logs" class="btn btn-success m-2">⬇️ Download QR Scan Report</a>
+            <a href="/export_email_logs" class="btn btn-danger m-2">⬇️ Download Email Report</a>
+            <a href="/export_adaptive_logs" class="btn btn-warning m-2">⬇️ Download Adaptive Honeypot Report</a>
+        </div>
+
+        <!-- ✅ Login Attempts Table -->
+        <h2 class="section-title">🔐 Login Attempts</h2>
+        <input type="text" class="search-input" id="loginSearch" placeholder="🔍 Search Login Logs..." onkeyup="filterTable('loginSearch', 'loginTable')">
+        <button class="btn btn-outline-light mb-3" onclick="refreshPage()">🔁 Refresh Login Table</button>
+        <div class="table-responsive">
+            <table id="loginTable" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Password</th>
+                        <th>IP Address</th>
+                        <th>Timestamp</th>
+                        <th>Phishing?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in logs %}
+                    <tr>
+                        <td>{{ row[1] }}</td>
+                        <td>{{ row[2] }}</td>
+                        <td>{{ row[3] }}</td>
+                        <td>{{ row[4] }}</td>
+                        <td class="{{ 'text-danger' if row[5] == 1 else 'text-success' }}">
+                            {{ 'Yes' if row[5] == 1 else 'No' }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ✅ QR Code Logs -->
+        <h2 class="section-title">📲 QR Code Download Attempts</h2>
+        <input type="text" class="search-input" id="qrSearch" placeholder="🔍 Search QR Logs..." onkeyup="filterTable('qrSearch', 'qrTable')">
+        <button class="btn btn-outline-light mb-3" onclick="refreshPage()">🔁 Refresh QR Logs</button>
+        <div class="table-responsive">
+            <table id="qrTable" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>IP Address</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in qr_logs %}
+                    <tr>
+                        <td>{{ row[1] }}</td>
+                        <td>{{ row[2] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ✅ Email Phishing Table -->
+        <h2 class="section-title">📧 Email Phishing URLs Detected</h2>
+        <input type="text" class="search-input" id="emailSearch" placeholder="🔍 Search Email Logs..." onkeyup="filterTable('emailSearch', 'emailTable')">
+        <button class="btn btn-outline-light mb-3" onclick="refreshPage()">🔁 Refresh Email Logs</button>
+        <div class="table-responsive">
+            <table id="emailTable" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Phishing URL</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in email_logs %}
+                    <tr>
+                        <td>{{ row[1] }}</td>
+                        <td>{{ row[2] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ✅ Adaptive Honeypot Logs Table -->
+        <h2 class="section-title">🧠 Adaptive Honeypot Logs</h2>
+        <input type="text" class="search-input" id="adaptiveSearch" placeholder="🔍 Search Adaptive Logs..." onkeyup="filterTable('adaptiveSearch', 'adaptiveTable')">
+        <button class="btn btn-outline-light mb-3" onclick="refreshPage()">🔁 Refresh Adaptive Logs</button>
+        <div class="table-responsive">
+            <table id="adaptiveTable" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Action</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for line in adaptive_logs %}
+                        {% set parts = line.split(" - ") %}
+                        <tr>
+                            <td>{{ parts[0] }}</td>
+                            <td>{{ parts[1] if parts|length > 1 else 'N/A' }}</td>
+                            <td>{{ parts[2] if parts|length > 2 else 'N/A' }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</body>
+</html>

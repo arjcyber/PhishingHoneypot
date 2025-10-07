@@ -1,0 +1,6 @@
+[2025-04-04 22:31:47] QR download attempt from IP: 127.0.0.1
+[2025-04-04 22:32:08] QR download attempt from IP: 127.0.0.1
+[2025-04-04 22:33:20] QR download attempt from IP: 127.0.0.1
+[2025-04-04 22:35:42] QR download attempt from IP: 127.0.0.1
+[2025-04-06 11:00:09] QR download attempt from IP: 10.0.2.15
+[2025-04-06 19:38:02] QR download attempt from IP: 10.0.2.15

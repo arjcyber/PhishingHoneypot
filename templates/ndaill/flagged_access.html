@@ -1,0 +1,17 @@
+<!-- ndaill/templates/ndaill/flagged_access.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Flagged Access</title>
+  <link rel="stylesheet" href="/static/ndaill/style.css">
+</head>
+<body>
+  <h1 class="log-title">🚨 Flagged Access Attempts</h1>
+  <ul>
+    {% for item in flagged %}
+      <li><strong>{{ item.ip }}</strong> - {{ item.behavior }} - {{ item.timestamp }}</li>
+    {% endfor %}
+  </ul>
+</body>
+</html>

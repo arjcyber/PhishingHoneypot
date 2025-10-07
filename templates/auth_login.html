@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🔒 Admin Login</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto:wght@400;500&display=swap');
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      font-family: 'Roboto', sans-serif;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .blur-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://via.placeholder.com/1500');
+      background-size: cover;
+      filter: blur(10px);
+      z-index: -1;
+    }
+
+    .login-container {
+      background: rgba(0, 0, 0, 0.7);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+      width: 100%;
+      max-width: 420px;
+      color: #fff;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      animation: fadeIn 0.7s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 34px;
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 15px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      font-size: 16px;
+      color: #333;
+      background-color: #f9f9f9;
+      transition: all 0.2s ease-in-out;
+    }
+
+    input:focus {
+      box-shadow: 0 0 8px #1E90FF;
+      background-color: #fff;
+    }
+
+    input[type="submit"] {
+      background-color: #1E90FF;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #4682B4;
+    }
+
+    .form-control {
+      position: relative;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .tip, .strength {
+      font-size: 13px;
+      margin-top: 5px;
+      color: #ccc;
+    }
+
+    .strength.weak {
+      color: #ff4d4d;
+    }
+
+    .strength.medium {
+      color: #ffaa00;
+    }
+
+    .strength.strong {
+      color: #66ff66;
+    }
+
+    .error {
+      color: #ff4d4d;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    .assistant-box {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      text-align: left;
+    }
+
+    .assistant-box label {
+      font-weight: bold;
+      color: #1E90FF;
+    }
+
+    .assistant-box input {
+      margin-top: 10px;
+      padding: 12px;
+      width: 100%;
+      font-size: 14px;
+      border-radius: 8px;
+    }
+
+    .assistant-response {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #ddd;
+      background: rgba(255,255,255,0.05);
+      padding: 10px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="blur-background"></div>
+
+  <div class="login-container">
+    <h2>🔐 Admin Login</h2>
+    <form method="POST">
+      <div class="form-control">
+        <input type="text" name="username" placeholder="👤 Username" id="username" required />
+        <div class="tip" id="username-tip">💡 Tip: Use your admin email as username (e.g. admin@example.com)</div>
+      </div>
+
+      <div class="form-control">
+        <input type="password" name="password" placeholder="🔑 Password" id="password" required />
+        <div class="strength" id="password-strength"></div>
+      </div>
+
+      <input type="submit" value="Login" />
+      {% if error %}
+        <p class="error">{{ error }}</p>
+      {% endif %}
+    </form>
+
+    <!-- Simulated Assistant -->
+    <div class="assistant-box">
+      <label for="ask">🤖 Need help? Ask Assistant:</label>
+      <input type="text" id="ask" placeholder="e.g., What is phishing?" oninput="simulateAssistant()" />
+      <div class="assistant-response" id="response-box">
+        <!-- JS will inject answer here -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const strengthText = document.getElementById('password-strength');
+
+    passwordInput.addEventListener('input', () => {
+      const val = passwordInput.value;
+      let strength = '';
+      if (val.length < 6) {
+        strength = 'Weak 🔴';
+        strengthText.className = 'strength weak';
+      } else if (val.match(/[A-Za-z]/) && val.match(/[0-9]/)) {
+        strength = 'Medium 🟡';
+        strengthText.className = 'strength medium';
+      } else if (val.match(/[A-Z]/) && val.match(/[a-z]/) && val.match(/[0-9]/) && val.match(/[^A-Za-z0-9]/)) {
+        strength = 'Strong 🟢';
+        strengthText.className = 'strength strong';
+      } else {
+        strength = 'Weak 🔴';
+        strengthText.className = 'strength weak';
+      }
+      strengthText.innerText = `Password Strength: ${strength}`;
+    });
+
+    usernameInput.addEventListener('focus', () => {
+      const tip = document.getElementById('username-tip');
+      tip.style.color = '#1E90FF';
+    });
+
+    const submitButton = document.querySelector('input[type="submit"]');
+    submitButton.addEventListener('click', function(event) {
+      const username = usernameInput.value;
+      const password = passwordInput.value;
+      if (username === '' || password === '') {
+        event.preventDefault();
+        alert("⚠️ Please fill out both username and password.");
+      }
+    });
+
+    function simulateAssistant() {
+      const query = document.getElementById("ask").value.toLowerCase();
+      const responseBox = document.getElementById("response-box");
+
+      if (query.includes("phishing")) {
+        responseBox.innerText = "🎣 Phishing is a type of cyber attack where attackers trick users into revealing sensitive information, often via fake emails or websites.";
+      } else if (query.includes("password")) {
+        responseBox.innerText = "🔐 A strong password should contain uppercase, lowercase, numbers, and special characters.";
+      } else if (query.includes("admin")) {
+        responseBox.innerText = "👤 Admin refers to a user with full control over the system or dashboard.";
+      } else if (query.length === 0) {
+        responseBox.innerText = "";
+      } else {
+        responseBox.innerText = "🤔 I'm not sure. Try asking about phishing, passwords, or admin.";
+      }
+    }
+  </script>
+</body>
+</html>
